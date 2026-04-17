@@ -1,0 +1,70 @@
+import { Meta, Canvas, Story, Controls } from "@storybook/addon-docs/blocks"
+import * as React from "react"
+import * as BreadcrumbStories from "./breadcrumb.stories"
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from "./breadcrumb"
+
+<Meta of={BreadcrumbStories} />
+
+# Breadcrumb
+
+O **Breadcrumb** é um componente de navegação que mostra a hierarquia de páginas.  
+Ele é utilizado para ajudar o usuário a se localizar dentro de seções ou rotas complexas.
+
+---
+
+## Como funciona
+
+O Breadcrumb possui uma estrutura baseada em **slots**:
+
+- `BreadcrumbList` → container que agrupa os itens.
+- `BreadcrumbItem` → representa cada item da lista.
+- `BreadcrumbLink` → link clicável que leva a outra página.
+- `BreadcrumbPage` → indica a página atual.
+- `BreadcrumbSeparator` → separador entre itens (padrão: ícone `ChevronRight`).
+- `BreadcrumbEllipsis` → indica que há itens ocultos.
+
+Ele suporta:
+- Aninhamento flexível de itens
+- Customização via Tailwind classes
+- Acessibilidade com roles e aria attributes
+
+---
+
+## Estrutura básica
+
+```tsx
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+
+export function Example() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#">Library</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Data</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+```
+
+## Controle interativo
+<Canvas> <Controls of={BreadcrumbStories.Default} /> </Canvas>
+
+## Props principais
+<ul> 
+  <li><strong>className</strong> – adiciona classes extras ao Breadcrumb ou aos slots.</li> <li><strong>BreadcrumbList</strong> – container da lista de itens, aceita props de `<ol>`.</li> 
+  <li><strong>BreadcrumbItem</strong> – item individual, aceita props de `<li>`.</li> 
+  <li><strong>BreadcrumbLink</strong> – link clicável, aceita props de `<a>` e `asChild` para composição.</li> 
+  <li><strong>BreadcrumbPage</strong> – página atual, renderiza `<span>` com role e aria-current.</li> 
+  <li><strong>BreadcrumbSeparator</strong> – separador entre itens, por padrão exibe `<ChevronRightIcon>`.</li> 
+  <li><strong>BreadcrumbEllipsis</strong> – indica itens ocultos, exibe `<MoreHorizontalIcon>`.</li> 
+</ul>
