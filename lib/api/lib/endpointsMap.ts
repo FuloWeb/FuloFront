@@ -39,6 +39,28 @@ export const endpointsMap = {
       method: HttpMethods.DELETE,
     },
   },
+  products: {
+    getProducts: {
+      path: '/products',
+      method: HttpMethods.GET,
+    },
+    getProduct: {
+      path: '/products/:id',
+      method: HttpMethods.GET,
+    },
+    createProduct: {
+      path: '/products',
+      method: HttpMethods.POST,
+    },
+    updateProduct: {
+      path: '/products/:id',
+      method: HttpMethods.PUT,
+    },
+    deleteProduct: {
+      path: '/products/:id',
+      method: HttpMethods.DELETE,
+    },
+  },
 } as const
 
 /**

@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Template - Next.js + FSD
 
-## Getting Started
+Template front-end escalável utilizando **Next.js**, **Feature-Sliced Design (FSD)**, **Tailwind CSS**, **Vitest** e componentes reutilizáveis com **shadcn/ui**.
 
-First, run the development server:
+---
+
+## Tecnologias Utilizadas
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Vitest
+- Zustand
+- Storybook
+- shadcn/ui
+
+---
+
+## Arquitetura
+
+O projeto segue o padrão **Feature-Sliced Design (FSD)**, focado em escalabilidade, manutenção e separação clara de responsabilidades.
+
+---
+
+## Estrutura de Pastas
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+├── app/
+├── config/
+├── entities/
+├── features/
+├── lib/
+└── shared/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Descrição das Pastas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### `app/`
 
-## Learn More
+Responsável pelas páginas e rotas da aplicação.
 
-To learn more about Next.js, take a look at the following resources:
+### `config/`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Centraliza configurações globais do projeto.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Pode conter:
 
-## Deploy on Vercel
+- Scripts internos
+- Providers
+- Configurações contextuais
+- Stores globais com Zustand
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### `entities/`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Camada de entidades do domínio da aplicação.
+
+Cada entidade pode possuir:
+
+- `api/` → hooks e integrações CRUD
+- `model/` → regras de negócio e tipagens
+- `consts/` → constantes
+- `ui/` → componentes específicos da entidade
+
+### `features/`
+
+Funcionalidades acionáveis pelo usuário.
+
+Exemplos:
+
+- login
+- create-user
+- update-profile
+- delete-product
+
+### `lib/`
+
+Recursos reutilizáveis e genéricos do projeto.
+
+Pode conter:
+
+- Hooks genéricos
+- Utilitários
+- Helpers
+- Tipos globais
+
+### `shared/`
+
+Camada compartilhada de interface e documentação.
+
+Pode conter:
+
+- Componentes base do shadcn/ui
+- Widgets reutilizáveis
+- Stories e documentação com Storybook
+
+---
+
+## Estilização
+
+O projeto utiliza **Tailwind CSS**.
+
+## Gerenciamento de Estado
+
+Utiliza **Zustand**.
+
+## Testes
+
+O projeto utiliza **Vitest**.
+
+```bash
+pnpm run test
+pnpm run test:watch
+pnpm run coverage
+```
+
+---
+

@@ -1,84 +1,84 @@
 import { createEndpointHook } from "@/lib/api/lib/endpoints";
 import { endpointsMap } from "@/lib/api/lib/endpointsMap";
-import { User } from "../model";
+import { Product } from "../model";
 
 /**
- * Hook para buscar todos os usuários.
+ * Hook para buscar todos os produtos.
  *
  * @returns Objeto contendo:
- * - `data`: lista de usuários (`User[]`)
+ * - `data`: lista de produtos (`Product[]`)
  * - `loading`: booleano indicando se está carregando
  * - `error`: erro retornado pela requisição, se houver
  * - `fetchData`: função para disparar a requisição
  *
  * @example
  * ```ts
- * const { data: users, loading, error, fetchData } = useGetUsers()
+ * const { data: products, loading, error, fetchData } = useGetProducts()
  * useEffect(() => { fetchData() }, [])
  * ```
  */
-export const useGetUsers = createEndpointHook<User[]>(endpointsMap.users.getUsers)
+export const useGetProducts = createEndpointHook<Product[]>(endpointsMap.products.getProducts)
 
 /**
- * Hook para buscar um usuário por ID.
+ * Hook para buscar um produto por ID.
  *
  * @param params Parâmetros da rota: `{ id: string }`
  *
  * @returns Objeto contendo:
- * - `data`: usuário (`User`)
+ * - `data`: produto (`Product`)
  * - `loading`: booleano indicando se está carregando
  * - `error`: erro retornado pela requisição, se houver
  * - `fetchData`: função para disparar a requisição
  *
  * @example
  * ```ts
- * const { data: user, fetchData } = useGetUser()
+ * const { data: user, fetchData } = useGetProduct()
  * useEffect(() => { fetchData({ id: '123' }) }, [])
  * ```
  */
-export const useGetUser = createEndpointHook<User>(endpointsMap.users.getUser)
+export const useGetProduct = createEndpointHook<Product>(endpointsMap.products.getProduct)
 
 /**
- * Hook para criar um novo usuário.
+ * Hook para criar um novo produto.
  *
  * @param body Corpo da requisição: `{ name: string, email: string }`
  *
  * @returns Objeto contendo:
- * - `data`: usuário criado (`User`)
+ * - `data`: produto criado (`Product`)
  * - `loading`: booleano indicando se está carregando
  * - `error`: erro retornado pela requisição, se houver
  * - `fetchData`: função para disparar a requisição
  *
  * @example
  * ```ts
- * const { fetchData } = useCreateUser()
+ * const { fetchData } = useCreateProduct()
  * fetchData(undefined, undefined, { name: 'Gustavo', email: 'gusto@test.com' })
  * ```
  */
-export const useCreateUser = createEndpointHook<User>(endpointsMap.users.createUser)
+export const useCreateProduct = createEndpointHook<Product>(endpointsMap.products.createProduct)
 
 /**
- * Hook para atualizar um usuário existente.
+ * Hook para atualizar um produto existente.
  *
  * @param params Parâmetros da rota: `{ id: string }`
  * @param body Corpo da requisição com os campos a atualizar
  *
  * @returns Objeto contendo:
- * - `data`: usuário atualizado (`User`)
+ * - `data`: produto atualizado (`Product`)
  * - `loading`: booleano indicando se está carregando
  * - `error`: erro retornado pela requisição, se houver
  * - `fetchData`: função para disparar a requisição
  *
  * @example
  * ```ts
- * const { fetchData } = useUpdateUser()
+ * const { fetchData } = useUpdateProduct()
  * fetchData({ id: '123' }, undefined, { name: 'Novo Nome' })
  * ```
  */
-export const useUpdateUser = createEndpointHook<User>(endpointsMap.users.updateUser)
+export const useUpdateProduct = createEndpointHook<Product>(endpointsMap.products.updateProduct)
 
 /**
- * Hook para deletar um usuário por ID.
+ * Hook para deletar um produto por ID.
  *
  * @param params Parâmetros da rota: `{ id: string }`
  *
@@ -90,8 +90,8 @@ export const useUpdateUser = createEndpointHook<User>(endpointsMap.users.updateU
  *
  * @example
  * ```ts
- * const { fetchData } = useDeleteUser()
+ * const { fetchData } = useDeleteProduct()
  * fetchData({ id: '123' })
  * ```
  */
-export const useDeleteUser = createEndpointHook<{ success: boolean }>(endpointsMap.users.deleteUser)
+export const useDeleteProduct = createEndpointHook<{ success: boolean }>(endpointsMap.products.deleteProduct)
