@@ -1,6 +1,6 @@
-# Project Template - Next.js + FSD
+# Projeto Fulo (Front)
 
-Template front-end escalável utilizando **Next.js**, **Feature-Sliced Design (FSD)**, **Tailwind CSS**, **Vitest** e componentes reutilizáveis com **shadcn/ui**.
+Projeto Fulo (Front) escalável utilizando **Next.js**, **Feature-Sliced Design (FSD)**, **Tailwind CSS**, **Vitest** e componentes reutilizáveis com **shadcn/ui**.
 
 ---
 
