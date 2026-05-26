@@ -1,20 +1,48 @@
-import { selectUser, useSessionStore } from "@/entities";
-
+import { User } from "@/entities";
+import { authStore } from "../model";
+import { useRouter } from "next/navigation";
 
 export function useAuth() {
+  const router = useRouter();
+  const user = authStore((state) => state.user);
+  const loading = authStore((state) => state.loading);
+  const auth = authStore((state) => state.auth);
 
-  // login
+  const login = async () => {
+    try {
+      // VEM DA API
+      const userData: User = {
+        id: "1",
+        admin: true,
+        email: "aaaa",
+        address: "aaaa",
+        name: "aaaaaaaa",
+        login: "aaaaa",
+      };
+      
+      auth.initSession(userData);
 
-  // logout
+      if(userData) {
+        router.replace("/");
+        return
+      }
+    } catch {
+      auth.finishAuthCheck();
+    }
+  };
 
-  const user = useSessionStore(
-    selectUser
-  );
+  const logout = () => {
+    auth.endSession();
+  };
 
-  const isAuthenticated = !!user;
+  const isAdmin = user?.admin
 
   return {
     user,
-    isAuthenticated,
+    loading,
+    isAdmin,
+    isAuthenticated: !!user,
+    login,
+    logout,
   };
 }
