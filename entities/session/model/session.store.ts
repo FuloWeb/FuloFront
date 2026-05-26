@@ -1,23 +1,19 @@
 import { create } from "zustand";
 import { SessionStore } from "./session.types";
-import { postLogin } from "../api";
 
 export const useSessionStore =
   create<SessionStore>((set) => ({
-    session: null,
-    isAuthenticated: false,
-    login: async () => {
-      const session = await postLogin();
-
+    user: null,
+    // Usado em login na feature de auth
+    initSession: (updatedUser) => {
       set({
-        session,
-        isAuthenticated: true,
+        user: updatedUser,
       });
     },
-    logout: () => {
+    // Usado em logout na feature de auth
+    endSession: () => {
       set({
-        session: null,
-        isAuthenticated: false,
+        user: null,
       });
     },
   }));
