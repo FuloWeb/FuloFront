@@ -7,3 +7,4 @@ export * from './button';
 export * from './search-input';
 export * from './menu';
 export * from './slider';
+export * from './product-card';

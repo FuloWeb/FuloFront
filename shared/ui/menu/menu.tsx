@@ -27,21 +27,21 @@ export function BurgerMenu({ items }: BurgerMenuProps) {
           <div className="relative h-5 w-5">
             <span
               className={cn(
-                "absolute left-0 top-0 block h-[3px] w-5 bg-primary-dark transition-all duration-300",
+                "absolute left-0 top-0 block h-0.75 w-5 bg-primary-dark transition-all duration-300",
                 open && "top-2 rotate-45"
               )}
             />
 
             <span
               className={cn(
-                "absolute left-0 top-2 block h-[3px] w-5 bg-primary-dark transition-all duration-300",
+                "absolute left-0 top-2 block h-0.75 w-5 bg-primary-dark transition-all duration-300",
                 open && "opacity-0"
               )}
             />
 
             <span
               className={cn(
-                "absolute left-0 top-4 block h-[3px] w-5 bg-primary-dark transition-all duration-300",
+                "absolute left-0 top-4 block h-0.75 w-5 bg-primary-dark transition-all duration-300",
                 open && "top-2 -rotate-45"
               )}
             />

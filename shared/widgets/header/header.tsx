@@ -11,7 +11,7 @@ export const Header = () => {
 
   return (
     <header
-      className='h-24 py-4 px-6 bg-background w-full flex justify-between items-center'
+      className='h-20 py-4 px-6 bg-background w-full flex justify-between items-center fixed z-50'
     >
       <div className='flex gap-6 items-center'>
         <BurgerMenu

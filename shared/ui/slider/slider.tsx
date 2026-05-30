@@ -77,7 +77,7 @@ export function Slider({ images }: SliderProps) {
         {images.map((image, index) => (
           <div
             key={index}
-            className="relative h-180 w-full shrink-0"
+            className="relative h-[70vh] w-full shrink-0"
           >
             {image ? (
               <Image
@@ -97,19 +97,64 @@ export function Slider({ images }: SliderProps) {
 
       <button
         onClick={handlePrevious}
-        className="absolute left-6 top-1/2 flex px-6 py-10 -translate-y-1/2 items-center justify-center rounded-[6px] bg-[#c9c9c933] text-white backdrop-blur-sm transition"
+        className="
+          absolute left-2 md:left-4 lg:left-6
+          top-1/2 -translate-y-1/2
+          flex items-center justify-center
+          h-16 w-8
+          md:h-24 md:w-12
+          lg:h-40 lg:w-16
+          rounded-md
+          bg-[#c9c9c933]
+          backdrop-blur-sm
+          transition-all
+          hover:bg-[#c9c9c955]
+        "
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="200" viewBox="0 0 28 140" fill="none">
-          <path d="M22.6989 135.001C16.9116 114.219 8.45292 83.845 5.64425 73.7592C5.294 72.5015 5.11887 71.8726 5.04786 71.2267C4.98481 70.6532 4.98398 70.0746 5.04538 69.501C5.11454 68.8549 5.28776 68.2259 5.63421 66.9678C8.43273 56.8056 16.9047 26.0416 22.6989 5.00122" stroke="white" strokeOpacity="0.4" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg
+          className="h-10 w-3 md:h-16 md:w-4 lg:h-24 lg:w-5"
+          viewBox="0 0 28 140"
+          fill="none"
+        >
+          <path
+            d="M22.6989 135.001C16.9116 114.219 8.45292 83.845 5.64425 73.7592C5.294 72.5015 5.11887 71.8726 5.04786 71.2267C4.98481 70.6532 4.98398 70.0746 5.04538 69.501C5.11454 68.8549 5.28776 68.2259 5.63421 66.9678C8.43273 56.8056 16.9047 26.0416 22.6989 5.00122"
+            stroke="white"
+            strokeOpacity="0.4"
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
-
       <button
         onClick={handleNext}
-        className="absolute right-6 top-1/2 flex px-6 py-10 -translate-y-1/2 items-center justify-center rounded-[6px] bg-[#c9c9c933] text-white backdrop-blur-sm transition"
+        className="
+          absolute right-2 md:right-4 lg:right-6
+          top-1/2 -translate-y-1/2
+          flex items-center justify-center
+          h-16 w-8
+          md:h-24 md:w-12
+          lg:h-40 lg:w-16
+          rounded-md
+          bg-[#c9c9c933]
+          backdrop-blur-sm
+          transition-all
+          hover:bg-[#c9c9c955]
+        "
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="200" viewBox="0 0 28 140" fill="none">
-          <path d="M5.00128 5.00122C10.7886 25.783 19.2472 56.1575 22.0559 66.2433C22.4061 67.501 22.5813 68.1298 22.6523 68.7758C22.7153 69.3492 22.7162 69.9278 22.6548 70.5014C22.5856 71.1475 22.4124 71.7766 22.0659 73.0346C19.2674 83.1968 10.7955 113.961 5.00127 135.001" stroke="white" strokeOpacity="0.4" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg
+          className="h-10 w-3 md:h-16 md:w-4 lg:h-24 lg:w-5"
+          viewBox="0 0 28 140"
+          fill="none"
+        >
+          <path
+            d="M5.00128 5.00122C10.7886 25.783 19.2472 56.1575 22.0559 66.2433C22.4061 67.501 22.5813 68.1298 22.6523 68.7758C22.7153 69.3492 22.7162 69.9278 22.6548 70.5014C22.5856 71.1475 22.4124 71.7766 22.0659 73.0346C19.2674 83.1968 10.7955 113.961 5.00127 135.001"
+            stroke="white"
+            strokeOpacity="0.4"
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
 
