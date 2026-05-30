@@ -5,3 +5,5 @@ export * from './badge';
 export * from './skeleton';
 export * from './button';
 export * from './search-input';
+export * from './menu';
+export * from './slider';

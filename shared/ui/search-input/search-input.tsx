@@ -29,7 +29,7 @@ export function SearchInput({
   return (
     <fieldset
       className={cn(
-        "flex items-center justify-between rounded-[66px] border-2 border-secondary-200 bg-secondary-100 px-2 py-1 w-fit",
+        "flex items-center justify-between rounded-[66px] h-11 border-2 border-secondary-200 bg-secondary-100 pr-0.5 pl-3 py-1 w-fit",
         {
           "bg-transparent border-0": !isOpen
         }
@@ -38,7 +38,7 @@ export function SearchInput({
       <div
         className={cn(
           "overflow-hidden transition-all duration-300 ease-in-out",
-          isOpen ? "w-96 opacity-100" : "w-0 opacity-0"
+          isOpen ? "sm:w-96 2xl:w-2xl opacity-100" : "w-0 opacity-0"
         )}
       >
         <Input
@@ -60,7 +60,7 @@ export function SearchInput({
           }
         )}
       >
-        <Icon icon="tabler:search" className="text-inherit text-lg" />
+        <Icon icon="tabler:search" className={cn("text-inherit text-lg", { "text-2xl": !isOpen})} />
       </button>
     </fieldset>
   );
