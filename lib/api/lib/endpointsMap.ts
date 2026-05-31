@@ -17,6 +17,20 @@ import { HttpMethods } from "../types/http-types"
  * ```
  */
 export const endpointsMap = {
+  auth: {
+    postRegister: {
+      path: '/auth/register',
+      method: HttpMethods.POST
+    },
+    postLogin: {
+      path: '/auth/login',
+      method: HttpMethods.POST
+    },
+    postLogout: {
+      path: '/auth/logout',
+      method: HttpMethods.POST
+    },
+  },
   users: {
     getUsers: {
       path: '/users',

@@ -1,5 +1,4 @@
 import { ProductCard, ProductCardProps } from '@/shared/ui'
-import React from 'react'
 
 interface SectionProps {
   title: string

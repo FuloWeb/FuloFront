@@ -1,20 +1,18 @@
-"use client"
-
+import { RegisterForm } from "@/features";
 import Link from "next/link";
-import { LoginForm } from '@/features/auth/sign-in';
 
-export default function LoginPage() {
+export default function RegisterPage() {
 
   return (
     <div className="mt-20">
       <h2 className='mt-10 text-3xl mx-auto w-fit'>Entre na sua conta</h2>
-      <LoginForm />
+      <RegisterForm />
 
       <Link
-        href="/register"
+        href="/login"
         className="mx-auto mb-10 block w-fit text-sm underline"
       >
-        Não possuo uma conta
+        Já possuo uma conta
       </Link>
     </div>
   );

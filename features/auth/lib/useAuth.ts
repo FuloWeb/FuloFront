@@ -1,6 +1,10 @@
-import { User } from "@/entities";
+'use client'
+
+import { UserAuth, UserRegisterAuth } from "@/entities";
 import { authStore } from "../model";
 import { useRouter } from "next/navigation";
+import { usePostRegister, usePostLogin, usePostLogout } from "../api";
+import { useMessage } from "@/features/message";
 
 export function useAuth() {
   const router = useRouter();
@@ -8,41 +12,58 @@ export function useAuth() {
   const loading = authStore((state) => state.loading);
   const auth = authStore((state) => state.auth);
 
-  const login = async () => {
-    try {
-      // VEM DA API
-      const userData: User = {
-        id: "1",
-        admin: true,
-        email: "aaaa",
-        address: "aaaa",
-        name: "aaaaaaaa",
-        login: "aaaaa",
-      };
-      
-      auth.initSession(userData);
+  const doRegister = usePostRegister()
+  const doLogin = usePostLogin()
+  const doLogout = usePostLogout()
 
-      if(userData) {
+  const { addNewMessage } = useMessage()
+
+  const register = async (data: UserRegisterAuth) => {
+    const response = await doRegister.fetchData(data)
+    if(response?.success) {
+      addNewMessage({ text: "Usuário cadastrado com sucesso!" })
+      router.replace("/login")
+
+    } else {
+      addNewMessage({ text: "Erro ao cadastrar usuário!" })
+    }
+  }
+
+  const login = async (userData: UserAuth) => {
+    try {
+      const response = await doLogin.fetchData(userData);
+
+      auth.initSession(response.data);
+
+      console.log(response);
+      
+      if(response.success) {
+        addNewMessage({ text: "Seja bem vindo!" })
         router.replace("/");
-        return
+
+      } else {
+        addNewMessage({ text: "Erro autenticar usuário!" })
       }
     } catch {
+      addNewMessage({ text: "Erro autenticar usuário!" })
       auth.finishAuthCheck();
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await doLogout.fetchData()
     auth.endSession();
   };
 
-  const isAdmin = user?.admin
+  // const isAdmin = user?.admin
 
   return {
     user,
     loading,
-    isAdmin,
+    // isAdmin,
     isAuthenticated: !!user,
     login,
     logout,
+    register,
   };
 }

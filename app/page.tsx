@@ -1,8 +1,6 @@
 "use client"
 
-import { useAuth } from "@/features";
 import { Section, Slider } from "@/shared";
-import { useRouter } from "next/navigation";
 
 export const products = [
   {
@@ -149,17 +147,6 @@ export const products = [
 
 export default function HomePage() {
 
-  const router = useRouter()
-  const { isAdmin, isAuthenticated } = useAuth()
-  
-  const goToLogin = () => router.push("/login")
-
-  const goToAdmin = () => {
-    router.replace("/admin");
-  };
-
-  const isAdminLoggedIn = isAdmin && isAuthenticated;
-
   return (
     <div className="mt-20">
       <Slider
@@ -177,6 +164,3 @@ export default function HomePage() {
     </div>
   );
 }
-{/* {!isAuthenticated && <button onClick={goToLogin}>Go LOGIN</button>}
-
-{isAdminLoggedIn && <button onClick={goToAdmin}>Go ADMIN</button>} */}

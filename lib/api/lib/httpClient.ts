@@ -2,7 +2,7 @@ import { HttpError } from '@/lib/api/types/http-errors'
 import { HttpRequestConfig, HttpResponse } from '@/lib/api/types/http-types'
 import axios, { AxiosInstance } from 'axios'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'localhost:3000'
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000/'
 
 if (!BASE_URL) {
   console.error('[HttpClient] NEXT_PUBLIC_API_BASE_URL is not defined')
@@ -107,7 +107,7 @@ export class HttpClient {
    */
   async request<TResponse = unknown, TBody = unknown>(
     config: HttpRequestConfig<TBody>
-  ): Promise<HttpResponse<TResponse>> {
+  ): Promise<HttpResponse<TResponse> | undefined> {
     try {
       const response = await this.client.request<TResponse>({
         url: config.url,
@@ -122,9 +122,10 @@ export class HttpClient {
         status: response.status,
         headers: response.headers as Record<string, string>,
       }
-    } catch (err) {
-      console.error('[HttpClient] Normalized error', err)
-      throw err
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.log(err.raw.response.data.error)
     }
   }
 }
