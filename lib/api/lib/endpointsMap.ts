@@ -53,6 +53,28 @@ export const endpointsMap = {
       method: HttpMethods.DELETE,
     },
   },
+  category: {
+    getCategories: {
+      path: '/category',
+      method: HttpMethods.GET,
+    },
+    getCategory: {
+      path: '/category/:id',
+      method: HttpMethods.GET,
+    },
+    createCategory: {
+      path: '/category',
+      method: HttpMethods.POST,
+    },
+    updateCategory: {
+      path: '/category/:id',
+      method: HttpMethods.PUT,
+    },
+    deleteCategory: {
+      path: '/category/:id',
+      method: HttpMethods.DELETE,
+    },
+  },
   products: {
     getProducts: {
       path: '/products',

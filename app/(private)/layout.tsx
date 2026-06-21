@@ -26,7 +26,7 @@ export default function PrivateLayout({
 
   const pageTitle = useMemo(() => {
     const map: Record<string, string> = {
-      "/admin": "Dashboard",
+      "/admin": "Sistema",
       "/admin/users": "Usuários",
       "/admin/products": "Produtos",
       "/admin/settings": "Configurações",

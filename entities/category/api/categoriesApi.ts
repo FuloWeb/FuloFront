@@ -1,84 +1,92 @@
 import { createEndpointHook } from "@/lib/api/lib/endpoints";
 import { endpointsMap } from "@/lib/api/lib/endpointsMap";
-import { User } from "../model";
+import { Category } from "../model";
 
 /**
- * Hook para buscar todos os usuários.
+ * Hook para buscar todas as categorias.
  *
  * @returns Objeto contendo:
- * - `data`: lista de usuários (`User[]`)
+ * - `data`: lista de categorias (`Category[]`)
  * - `loading`: booleano indicando se está carregando
  * - `error`: erro retornado pela requisição, se houver
  * - `fetchData`: função para disparar a requisição
  *
  * @example
  * ```ts
- * const { data: users, loading, error, fetchData } = useGetUsers()
+ * const { data: categories, loading, error, fetchData } = useGetCategories()
  * useEffect(() => { fetchData() }, [])
  * ```
  */
-export const useGetUsers = createEndpointHook<User[]>(endpointsMap.users.getUsers)
+export const useGetCategories = createEndpointHook<Category[]>(
+  endpointsMap.category.getCategories
+);
 
 /**
- * Hook para buscar um usuário por ID.
+ * Hook para buscar uma categoria por ID.
  *
  * @param params Parâmetros da rota: `{ id: string }`
  *
  * @returns Objeto contendo:
- * - `data`: usuário (`User`)
+ * - `data`: categoria (`Category`)
  * - `loading`: booleano indicando se está carregando
  * - `error`: erro retornado pela requisição, se houver
  * - `fetchData`: função para disparar a requisição
  *
  * @example
  * ```ts
- * const { data: user, fetchData } = useGetUser()
+ * const { data: category, fetchData } = useGetCategory()
  * useEffect(() => { fetchData({ id: '123' }) }, [])
  * ```
  */
-export const useGetUser = createEndpointHook<User>(endpointsMap.users.getUser)
+export const useGetCategory = createEndpointHook<string, Category>(
+  endpointsMap.category.getCategory
+);
 
 /**
- * Hook para criar um novo usuário.
+ * Hook para criar uma nova categoria.
  *
- * @param body Corpo da requisição: `{ name: string, email: string }`
+ * @param body Corpo da requisição: `{ name: string }`
  *
  * @returns Objeto contendo:
- * - `data`: usuário criado (`User`)
+ * - `data`: categoria criada (`Category`)
  * - `loading`: booleano indicando se está carregando
  * - `error`: erro retornado pela requisição, se houver
  * - `fetchData`: função para disparar a requisição
  *
  * @example
  * ```ts
- * const { fetchData } = useCreateUser()
- * fetchData(undefined, undefined, { name: 'Gustavo', email: 'gusto@test.com' })
+ * const { fetchData } = useCreateCategory()
+ * fetchData(undefined, undefined, { name: 'Eletrônicos' })
  * ```
  */
-export const useCreateUser = createEndpointHook<User>(endpointsMap.users.createUser)
+export const useCreateCategory = createEndpointHook<Category>(
+  endpointsMap.category.createCategory
+);
 
 /**
- * Hook para atualizar um usuário existente.
+ * Hook para atualizar uma categoria existente.
  *
  * @param params Parâmetros da rota: `{ id: string }`
- * @param body Corpo da requisição com os campos a atualizar
+ * @param body Corpo da requisição: `{ name?: string }`
  *
  * @returns Objeto contendo:
- * - `data`: usuário atualizado (`User`)
+ * - `data`: categoria atualizada (`Category`)
  * - `loading`: booleano indicando se está carregando
  * - `error`: erro retornado pela requisição, se houver
  * - `fetchData`: função para disparar a requisição
  *
  * @example
  * ```ts
- * const { fetchData } = useUpdateUser()
- * fetchData({ id: '123' }, undefined, { name: 'Novo Nome' })
+ * const { fetchData } = useUpdateCategory()
+ * fetchData({ id: '123' }, undefined, { name: 'Nova categoria' })
  * ```
  */
-export const useUpdateUser = createEndpointHook<Partial<User>, User>(endpointsMap.users.updateUser)
+export const useUpdateCategory = createEndpointHook<Partial<Category>, Category>(
+  endpointsMap.category.updateCategory
+);
 
 /**
- * Hook para deletar um usuário por ID.
+ * Hook para deletar uma categoria por ID.
  *
  * @param params Parâmetros da rota: `{ id: string }`
  *
@@ -90,8 +98,10 @@ export const useUpdateUser = createEndpointHook<Partial<User>, User>(endpointsMa
  *
  * @example
  * ```ts
- * const { fetchData } = useDeleteUser()
+ * const { fetchData } = useDeleteCategory()
  * fetchData({ id: '123' })
  * ```
  */
-export const useDeleteUser = createEndpointHook<{ success: boolean }>(endpointsMap.users.deleteUser)
+export const useDeleteCategory = createEndpointHook<string, { success: boolean }>(
+  endpointsMap.category.deleteCategory
+);

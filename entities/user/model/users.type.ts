@@ -1,5 +1,6 @@
 export type User = {
-  // TODO: TROCAR ROLE POR ENUM
+  password?: string
+  id: string
   role: UserRole,
   email: string,
   address: string,

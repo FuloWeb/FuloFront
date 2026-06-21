@@ -25,7 +25,7 @@ export const Header = () => {
   const isAdminLoggedIn = isAdmin && isAuthenticated;
 
   const menu_items = isAdminLoggedIn ? [
-    { label: "Dashboard", route: "dashboard" },
+    { label: "Dashboard", route: "" },
     { label: "Produtos", route: "products" },
     { label: "Configurações", route: "settings" }
   ] : [];
@@ -49,9 +49,9 @@ export const Header = () => {
         className='h-20 py-4 px-6 bg-background w-full flex justify-between items-center'
       >
         <div className='flex gap-6 items-center'>
-          <BurgerMenu
+          {isAdmin && <BurgerMenu
             items={formattedMenuItems ?? []}
-          />
+          />}
           <Link href='/'>
             <Image
               src={LOGO}

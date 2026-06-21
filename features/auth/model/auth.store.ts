@@ -43,6 +43,10 @@ export const authStore = create<AuthStoreType>()(
     (set, get) => ({
       user: null,
       loading: true,
+      
+      initSession: (user: User) => set({ user, loading: false }),
+      endSession: () => set({ user: null, loading: false }),
+      finishAuthCheck: () => set({ loading: false }),
 
       auth: new AuthStore(
         set,
@@ -55,6 +59,11 @@ export const authStore = create<AuthStoreType>()(
 
     {
       name: "auth-storage",
+      partialize: (state) => ({ user: state.user }),
+      onRehydrateStorage: () => (state) => {
+        // @ts-expect-error dont have time
+        state?.finishAuthCheck()
+      },
     }
   )
 );

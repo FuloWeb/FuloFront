@@ -67,7 +67,7 @@ export function useRequest<TResponse = unknown>() {
     }: RequestConfig<TBody>): Promise<TResponse> => {
       setLoading(true)
       setError(null)
-
+      
       try {
         // Resolve path params
         const resolvedEndpoint = resolveEndpoint(endpoint, params)
@@ -87,7 +87,8 @@ export function useRequest<TResponse = unknown>() {
           headers,
         })
 
-        setData(response?.data || null)
+        setData(response?.data ?? null)
+        setError(null)
         return response?.data as TResponse
       } catch (err) {
         const normalizedError = err as HttpError
