@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
+import { useAuth } from "@/features";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/entities/session/lib/useAuth";
 import { useEffect } from "react";
 
 export default function PrivateLayout({
@@ -11,19 +11,24 @@ export default function PrivateLayout({
 }>) {
   const router = useRouter();
 
-  const { isAuthenticated } = useAuth();
+  const {
+    loading,
+    isAuthenticated,
+  } = useAuth();
 
   useEffect(() => {
-    if(!isAuthenticated) {
-      router.replace("/login")
+    if (!isAuthenticated) {
+      router.replace("/");
     }
-  }, [isAuthenticated, router])
+  }, [isAuthenticated, router]);
 
-  if(!isAuthenticated) {
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!isAuthenticated) {
     return null;
   }
 
-  return (
-    {children}
-  );
+  return <>{children}</>;
 }

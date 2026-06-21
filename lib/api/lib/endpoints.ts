@@ -55,7 +55,7 @@ export function buildQuery(query?: Record<string, string | number>): string {
  * - `error`: erro ocorrido durante a requisição, se houver
  * - `fetchData`: função para disparar a requisição
  *
- * @template TResponse Tipo esperado da resposta da requisição
+ * @template T Tipo esperado da resposta da requisição
  * @param endpoint Configuração do endpoint (`path` e `method`)
  * @returns Hook personalizado para consumir o endpoint
  *
@@ -66,24 +66,39 @@ export function buildQuery(query?: Record<string, string | number>): string {
  * useEffect(() => { fetchData() }, [])
  * ```
  */
-export function createEndpointHook<TResponse>(
-  endpoint: EndpointConfig
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+}
+
+export function createEndpointHook<
+  TBody,
+  TResponse = TBody
+>(
+  endpoint: EndpointConfig,
 ) {
   return function useEndpoint(
     params?: Record<string, string | number>,
     query?: Record<string, string | number>
   ) {
-    const { data, loading, error, request } = useRequest<TResponse>()
+    const { data, loading, error, request } =
+      useRequest<ApiResponse<TResponse>>();
 
-    const fetchData = async () => {
-      return request({
+    const fetchData = async (body: TBody = {} as TBody) => {
+      return request<TBody>({
         endpoint: endpoint.path,
         method: endpoint.method,
         params,
         query,
-      })
-    }
+        body,
+      });
+    };
 
-    return { data, loading, error, fetchData }
-  }
+    return {
+      data,
+      loading,
+      error,
+      fetchData,
+    };
+  };
 }

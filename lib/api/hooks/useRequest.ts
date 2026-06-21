@@ -87,8 +87,8 @@ export function useRequest<TResponse = unknown>() {
           headers,
         })
 
-        setData(response.data)
-        return response.data
+        setData(response?.data || null)
+        return response?.data as TResponse
       } catch (err) {
         const normalizedError = err as HttpError
         setError(normalizedError)
