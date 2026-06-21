@@ -17,13 +17,12 @@ export function ProductCard({
   return (
     <Card className="ring-0 bg-transparent shadow-none">
       <CardContent className="p-0">
-        <div className="relative aspect-4/6 overflow-hidden rounded-lg bg-secondary-200">
+        <div className="relative aspect-4/6 max-w-64 overflow-hidden rounded-lg bg-secondary-200">
           {image && (
             <Image
               src={image}
               fill
               alt={name}
-              className="object-cover"
             />
           )}
         </div>

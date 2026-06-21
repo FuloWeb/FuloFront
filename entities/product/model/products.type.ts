@@ -1,14 +1,26 @@
 export type Product = {
-  id: string
-  description: string,
-  price: string,
-  picture: string,
-  color: string,
-  quantity: string,
-  category: ProductCategory
-}
+  id: number;
+  name: string;
+  description?: string;
+  price: number;
+  quantity: number;
+  color: string;
+  categoryId: number;
+  createdAt: string;
+  photo?: {
+    id: number;
+    filename: string;
+    mimetype: string;
+    blob?: string
+  };
+};
 
-export type ProductCategory = {
-  id: string,
-  name: string
-}
+export type ProductFormData = {
+  name: string;
+  description?: string;
+  price: number;
+  quantity: number;
+  color: string;
+  categoryId: number;
+  file?: File;
+};
