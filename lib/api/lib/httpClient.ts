@@ -37,9 +37,7 @@ export class HttpClient {
     this.client = client ?? axios.create({
       baseURL: BASE_URL,
       timeout: 10000,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      withCredentials: true,
     })
 
     this.setupInterceptors()
@@ -109,12 +107,15 @@ export class HttpClient {
     config: HttpRequestConfig<TBody>
   ): Promise<HttpResponse<TResponse> | undefined> {
     try {
+      const isFormData = config.body instanceof FormData;
+
       const response = await this.client.request<TResponse>({
         url: config.url,
         method: config.method ?? 'GET',
-        params: config.params,
         data: config.body,
-        headers: config.headers,
+        headers: isFormData
+          ? config.headers
+          : { 'Content-Type': 'application/json', ...config.headers },
       })
 
       return {

@@ -71,20 +71,18 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export function createEndpointHook<
-  TBody,
-  TResponse = TBody
->(
+export function createEndpointHook<TBody, TResponse = TBody>(
   endpoint: EndpointConfig,
 ) {
-  return function useEndpoint(
-    params?: Record<string, string | number>,
-    query?: Record<string, string | number>
-  ) {
-    const { data, loading, error, request } =
-      useRequest<ApiResponse<TResponse>>();
+  return function useEndpoint() {
+    const { data, loading, error, request } = useRequest<ApiResponse<TResponse>>();
 
-    const fetchData = async (body: TBody = {} as TBody) => {
+    const fetchData = async (
+      body?: TBody,
+      params?: Record<string, string | number>,
+      query?: Record<string, string | number>,
+    ) => {
+      
       return request<TBody>({
         endpoint: endpoint.path,
         method: endpoint.method,
@@ -94,11 +92,6 @@ export function createEndpointHook<
       });
     };
 
-    return {
-      data,
-      loading,
-      error,
-      fetchData,
-    };
+    return { data, loading, error, fetchData };
   };
 }

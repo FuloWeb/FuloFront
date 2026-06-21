@@ -1,6 +1,7 @@
 import { User } from "@/entities";
 import { AuthState, AuthStoreType, IAuthStore } from "./auth.types";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 class AuthStore implements IAuthStore {
   private set: (
@@ -37,15 +38,32 @@ class AuthStore implements IAuthStore {
   }
 }
 
-export const authStore = create<AuthStoreType>((set, get) => ({
-  user: null,
-  loading: true,
+export const authStore = create<AuthStoreType>()(
+  persist(
+    (set, get) => ({
+      user: null,
+      loading: true,
+      
+      initSession: (user: User) => set({ user, loading: false }),
+      endSession: () => set({ user: null, loading: false }),
+      finishAuthCheck: () => set({ loading: false }),
 
-  auth: new AuthStore(
-    set,
-    () => ({
-      user: get().user,
-      loading: get().loading,
-    })
-  ),
-}));
+      auth: new AuthStore(
+        set,
+        () => ({
+          user: get().user,
+          loading: get().loading,
+        })
+      ),
+    }),
+
+    {
+      name: "auth-storage",
+      partialize: (state) => ({ user: state.user }),
+      onRehydrateStorage: () => (state) => {
+        // @ts-expect-error dont have time
+        state?.finishAuthCheck()
+      },
+    }
+  )
+);

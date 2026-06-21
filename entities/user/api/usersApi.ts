@@ -75,7 +75,7 @@ export const useCreateUser = createEndpointHook<User>(endpointsMap.users.createU
  * fetchData({ id: '123' }, undefined, { name: 'Novo Nome' })
  * ```
  */
-export const useUpdateUser = createEndpointHook<User>(endpointsMap.users.updateUser)
+export const useUpdateUser = createEndpointHook<Partial<User>, User>(endpointsMap.users.updateUser)
 
 /**
  * Hook para deletar um usuário por ID.

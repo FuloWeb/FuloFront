@@ -1,6 +1,6 @@
 'use client'
 
-import { UserAuth, UserRegisterAuth } from "@/entities";
+import { UserAuth, UserRegisterAuth, UserRole } from "@/entities";
 import { authStore } from "../model";
 import { useRouter } from "next/navigation";
 import { usePostRegister, usePostLogin, usePostLogout } from "../api";
@@ -34,8 +34,6 @@ export function useAuth() {
       const response = await doLogin.fetchData(userData);
 
       auth.initSession(response.data);
-
-      console.log(response);
       
       if(response.success) {
         addNewMessage({ text: "Seja bem vindo!" })
@@ -55,12 +53,12 @@ export function useAuth() {
     auth.endSession();
   };
 
-  // const isAdmin = user?.admin
+  const isAdmin = user?.role === UserRole.ADMIN
 
   return {
     user,
     loading,
-    // isAdmin,
+    isAdmin,
     isAuthenticated: !!user,
     login,
     logout,

@@ -11,3 +11,4 @@ export * from './product-card';
 export * from './card';
 export * from './input';
 export * from './field';
+export * from './table';
