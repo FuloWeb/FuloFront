@@ -13,8 +13,7 @@ export const Header = () => {
   
   const router = useRouter()
 
-  // const { isAdmin, isAuthenticated } = useAuth()
-  const { logout, isAuthenticated } = useAuth()
+  const { logout, isAuthenticated, isAdmin } = useAuth()
   const [search, setSearch] = useState("");
   
   const goToLogin = () => router.push("/login")
@@ -23,8 +22,25 @@ export const Header = () => {
   //   router.replace("/admin");
   // };
   
-  // const isAdminLoggedIn = isAdmin && isAuthenticated;
-  console.log(isAuthenticated);
+  const isAdminLoggedIn = isAdmin && isAuthenticated;
+
+  const menu_items = isAdminLoggedIn ? [
+    { label: "Dashboard", route: "dashboard" },
+    { label: "Produtos", route: "products" },
+    { label: "Configurações", route: "settings" }
+  ] : [];
+  
+  const formattedMenuItems = menu_items.map(item => {
+    const prefix = isAdminLoggedIn ? 'admin/' : '';
+    const fullRoute = `/${prefix}${item.route}`;
+
+    return {
+      label: item.label,
+      onClick: () => {
+        router.push(fullRoute);
+      }
+    };
+  });
   
   return (
     <section className='fixed z-50 w-full'>
@@ -34,20 +50,7 @@ export const Header = () => {
       >
         <div className='flex gap-6 items-center'>
           <BurgerMenu
-            items={[
-              {
-                label: "Dashboard",
-                onClick: () => console.log("dashboard"),
-              },
-              {
-                label: "Usuários",
-                onClick: () => console.log("users"),
-              },
-              {
-                label: "Configurações",
-                onClick: () => console.log("settings"),
-              },
-            ]}
+            items={formattedMenuItems ?? []}
           />
           <Link href='/'>
             <Image

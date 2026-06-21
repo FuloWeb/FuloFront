@@ -5,7 +5,6 @@ import "@/config/globals.css";
 
 import { cn } from "@/lib/utils";
 import { geistMono, geistSans, inter } from "@/config/meta";
-import { Footer, Header } from "@/shared";
 
 export default function RootLayout({
   children,
@@ -18,9 +17,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col justify-between min-h-screen`}
       >
-        <Header />
         {children}
-        <Footer />
       </body>
     </html>
   );

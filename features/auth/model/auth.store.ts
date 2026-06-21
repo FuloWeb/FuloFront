@@ -1,6 +1,7 @@
 import { User } from "@/entities";
 import { AuthState, AuthStoreType, IAuthStore } from "./auth.types";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 class AuthStore implements IAuthStore {
   private set: (
@@ -37,15 +38,23 @@ class AuthStore implements IAuthStore {
   }
 }
 
-export const authStore = create<AuthStoreType>((set, get) => ({
-  user: null,
-  loading: true,
+export const authStore = create<AuthStoreType>()(
+  persist(
+    (set, get) => ({
+      user: null,
+      loading: true,
 
-  auth: new AuthStore(
-    set,
-    () => ({
-      user: get().user,
-      loading: get().loading,
-    })
-  ),
-}));
+      auth: new AuthStore(
+        set,
+        () => ({
+          user: get().user,
+          loading: get().loading,
+        })
+      ),
+    }),
+
+    {
+      name: "auth-storage",
+    }
+  )
+);
