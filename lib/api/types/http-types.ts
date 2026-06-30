@@ -14,6 +14,7 @@ export interface HttpRequestConfig<TBody = unknown> {
   params?: Record<string, unknown>
   body?: TBody
   headers?: Record<string, string>
+  responseType?: 'json' | 'blob'
 }
 
 export interface HttpResponse<TData = unknown> {

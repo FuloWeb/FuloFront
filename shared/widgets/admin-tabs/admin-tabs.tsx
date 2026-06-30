@@ -19,6 +19,10 @@ const tabs = [
     href: "/admin/products",
   },
   {
+    label: "Relatórios",
+    href: "/admin/reports",
+  },
+  {
     label: "Configurações",
     href: "/admin/settings",
   },

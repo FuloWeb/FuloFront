@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Link from "next/link";
 import { ProductCard } from '@/shared/ui';
 import { useProduct } from "@/entities/product/lib";
 
@@ -24,13 +25,14 @@ export const Section = ({ title }: SectionProps) => {
         )}
 
         {!loading && products.map((product) => (
-          <ProductCard
-            key={product.id}
-            name={product.name}
-            price={product.price}
-            category={String(product.categoryId)} 
-            image={product.photo?.blob}
-          />
+          <Link key={product.id} href={`/produto/${product.id}`}>
+            <ProductCard
+              name={product.name}
+              price={product.price}
+              category={String(product.categoryId)}
+              image={product.photo?.blob}
+            />
+          </Link>
         ))}
       </section>
     </main>

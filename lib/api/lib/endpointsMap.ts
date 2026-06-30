@@ -97,6 +97,26 @@ export const endpointsMap = {
       method: HttpMethods.DELETE,
     },
   },
+  orders: {
+    createOrder: {
+      path: '/orders',
+      method: HttpMethods.POST,
+    },
+  },
+  reports: {
+    missingProducts: {
+      path: '/reports/missing-products',
+      method: HttpMethods.GET,
+    },
+    salesByClient: {
+      path: '/reports/sales-by-client',
+      method: HttpMethods.GET,
+    },
+    dailyRevenue: {
+      path: '/reports/daily-revenue',
+      method: HttpMethods.GET,
+    },
+  },
 } as const
 
 /**
