@@ -113,6 +113,7 @@ export class HttpClient {
         url: config.url,
         method: config.method ?? 'GET',
         data: config.body,
+        responseType: config.responseType ?? 'json',
         headers: isFormData
           ? config.headers
           : { 'Content-Type': 'application/json', ...config.headers },

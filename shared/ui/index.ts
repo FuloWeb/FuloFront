@@ -12,3 +12,6 @@ export * from './card';
 export * from './input';
 export * from './field';
 export * from './table';
+export * from './quantity-stepper';
+export * from './breadcrumb';
+export * from './select';

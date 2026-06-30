@@ -29,6 +29,7 @@ export default function PrivateLayout({
       "/admin": "Sistema",
       "/admin/users": "Usuários",
       "/admin/products": "Produtos",
+      "/admin/reports": "Relatórios",
       "/admin/settings": "Configurações",
     };
 

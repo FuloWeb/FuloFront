@@ -64,6 +64,7 @@ export function useRequest<TResponse = unknown>() {
       query,
       body,
       headers,
+      responseType,
     }: RequestConfig<TBody>): Promise<TResponse> => {
       setLoading(true)
       setError(null)
@@ -85,6 +86,7 @@ export function useRequest<TResponse = unknown>() {
           method,
           body,
           headers,
+          responseType,
         })
 
         setData(response?.data ?? null)
