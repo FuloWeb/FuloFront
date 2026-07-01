@@ -25,30 +25,27 @@ type Props = {
 
 export function ProductPurchasePanel({ product, colors }: Props) {
   const availableColors = colors?.length ? colors : [product.color];
-
   const [selectedColor, setSelectedColor] = useState(availableColors[0]);
   const [quantity, setQuantity] = useState(1);
 
-  const { addToCart } = useCart();
+  const { addToCart, loading } = useCart();
 
   const inStock = product.quantity > 0;
 
-  const handleBuy = () => {
+  const handleBuy = async () => {
     if (!inStock) return;
-    addToCart(product, quantity, selectedColor);
+    await addToCart(product, quantity);
   };
 
   return (
     <div className="space-y-6">
       <Field>
         <FieldLabel>Cor</FieldLabel>
-
         <FieldContent>
           <Select value={selectedColor} onValueChange={setSelectedColor}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Selecione uma cor" />
             </SelectTrigger>
-
             <SelectContent>
               {availableColors.map((color) => (
                 <SelectItem key={color} value={color}>
@@ -67,14 +64,13 @@ export function ProductPurchasePanel({ product, colors }: Props) {
           min={1}
           max={product.quantity}
         />
-
         <Button
           type="button"
           onClick={handleBuy}
-          disabled={!inStock}
+          disabled={!inStock || loading}
           className="flex-1"
         >
-          {inStock ? "Comprar" : "Indisponível"}
+          {loading ? "Adicionando..." : inStock ? "Comprar" : "Indisponível"}
         </Button>
       </div>
 

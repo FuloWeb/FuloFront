@@ -1,12 +1,30 @@
-export type CartItem = {
+import { Product } from "@/entities";
+
+// Formato do item retornado pelo backend (OrderItem + product)
+export type CartItemServer = {
+  id: number;
+  orderId: number;
   productId: number;
-  name: string;
-  price: number;
-  color: string;
   quantity: number;
-  image?: string;
+  product: Product;
 };
 
-export type CartState = {
-  items: CartItem[];
+// Formato do carrinho retornado pelo backend (Order com items)
+export type CartServer = {
+  id: number;
+  userId: number;
+  status: string;
+  createdAt: string;
+  items: CartItemServer[];
+};
+
+// Body para POST /cart/items e PATCH /cart/items
+export type CartAddItemBody = {
+  productId: number;
+  quantity: number;
+};
+
+export type CartUpdateItemBody = {
+  productId: number;
+  quantity: number;
 };

@@ -15,3 +15,5 @@ export * from './table';
 export * from './quantity-stepper';
 export * from './breadcrumb';
 export * from './select';
+export * from './sheet';
+export * from './dialog';

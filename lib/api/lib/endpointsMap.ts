@@ -97,9 +97,29 @@ export const endpointsMap = {
       method: HttpMethods.DELETE,
     },
   },
-  orders: {
-    createOrder: {
-      path: '/orders',
+  cart: {
+    get: {
+      path: '/cart',
+      method: HttpMethods.GET,
+    },
+    addItem: {
+      path: '/cart/items',
+      method: HttpMethods.POST,
+    },
+    updateItem: {
+      path: '/cart/items',
+      method: HttpMethods.PATCH,
+    },
+    removeItem: {
+      path: '/cart/items/:productId',
+      method: HttpMethods.DELETE,
+    },
+    clear: {
+      path: '/cart',
+      method: HttpMethods.DELETE,
+    },
+    checkout: {
+      path: '/cart/checkout',
       method: HttpMethods.POST,
     },
   },

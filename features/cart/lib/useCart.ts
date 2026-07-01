@@ -1,100 +1,169 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useCallback } from "react";
 import { Product } from "@/entities";
 import { useMessage } from "@/features/message";
-import { cartStore } from "../model";
+import {
+  useAddCartItem,
+  useCheckoutCart,
+  useClearCart,
+  useGetCart,
+  useRemoveCartItem,
+  useUpdateCartItem,
+} from "../api";
+import { CartServer, cartStore } from "../model";
 
 export function useCart() {
-  const items = cartStore((state) => state.items);
-  const addItem = cartStore((state) => state.addItem);
-  const removeItem = cartStore((state) => state.removeItem);
-  const updateItemQuantity = cartStore((state) => state.updateItemQuantity);
-  const clear = cartStore((state) => state.clear);
+  const cart = cartStore((state) => state.cart);
+  const loading = cartStore((state) => state.loading);
+  const setCart = cartStore((state) => state.setCart);
+  const setLoading = cartStore((state) => state.setLoading);
+  const setError = cartStore((state) => state.setError);
 
   const { addNewMessage } = useMessage();
 
-  const [checkingOut, setCheckingOut] = useState(false);
+  const getCartApi = useGetCart();
+  const addItemApi = useAddCartItem();
+  const updateItemApi = useUpdateCartItem();
+  const removeItemApi = useRemoveCartItem();
+  const clearApi = useClearCart();
+  const checkoutApi = useCheckoutCart();
 
-  const totalItems = items.reduce((total, item) => total + item.quantity, 0);
+  const items = cart?.items ?? [];
+  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
   const totalPrice = items.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (acc, item) => acc + item.product.price * item.quantity,
     0
   );
 
-  const addToCart = (product: Product, quantity: number, color: string) => {
-    if (quantity < 1) return;
-
-    addItem({
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      color,
-      quantity,
-      image: product.photo?.blob,
-    });
-
-    addNewMessage({ text: "Produto adicionado ao carrinho!" });
-  };
-
-  /**
-   * MOCK — checkout do carrinho.
-   *
-   * Hoje chama a rota fake `app/api/cart/checkout/route.ts`.
-   *
-   * Para trocar pelo backend real (POST /orders), troque o `fetch` abaixo por:
-   * ```ts
-   * const createOrder = useCreateOrder(); // createEndpointHook(endpointsMap.orders.createOrder)
-   * const res = await createOrder.fetchData({ items: ... });
-   * ```
-   * e remova a pasta `app/api/cart`.
-   */
-  const checkout = async () => {
-    if (items.length === 0) return null;
-
-    setCheckingOut(true);
-
+  const fetchCart = useCallback(async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const response = await fetch("/api/cart/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            color: item.color,
-            price: item.price,
-          })),
-        }),
-      });
+      const res = await getCartApi.fetchData();
+      if (res) setCart(res as unknown as CartServer);
+    } catch {
+      setError("Erro ao carregar carrinho.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-      if (!response.ok) {
-        throw new Error("Falha ao finalizar pedido");
+  const addToCart = useCallback(
+    async (product: Product, quantity: number) => {
+      if (quantity < 1) return;
+
+      // Otimista
+      if (cart) {
+        const existing = cart.items.find((i) => i.productId === product.id);
+        const optimisticItems = existing
+          ? cart.items.map((i) =>
+              i.productId === product.id
+                ? { ...i, quantity: i.quantity + quantity }
+                : i
+            )
+          : [
+              ...cart.items,
+              { id: -1, orderId: cart.id, productId: product.id, quantity, product },
+            ];
+        setCart({ ...cart, items: optimisticItems });
       }
 
-      const { data } = await response.json();
+      try {
+        await addItemApi.fetchData({ productId: product.id, quantity });
+        await fetchCart();
+        addNewMessage({ text: "Produto adicionado ao carrinho!" });
+      } catch {
+        await fetchCart();
+        addNewMessage({ text: "Erro ao adicionar produto. Tente novamente." });
+      }
+    },
+    [cart]
+  );
 
-      clear();
-      addNewMessage({ text: "Pedido realizado com sucesso!" });
+  const updateItemQuantity = useCallback(
+    async (productId: number, quantity: number) => {
+      if (cart) {
+        setCart({
+          ...cart,
+          items: cart.items.map((i) =>
+            i.productId === productId ? { ...i, quantity } : i
+          ),
+        });
+      }
+      try {
+        await updateItemApi.fetchData({ productId, quantity });
+      } catch {
+        await fetchCart();
+      }
+    },
+    [cart]
+  );
 
-      return data;
+  const removeItem = useCallback(
+    async (productId: number) => {
+      if (cart) {
+        setCart({
+          ...cart,
+          items: cart.items.filter((i) => i.productId !== productId),
+        });
+      }
+      try {
+        await removeItemApi.fetchData(undefined, { productId });
+      } catch {
+        await fetchCart();
+      }
+    },
+    [cart]
+  );
+
+  const clear = useCallback(async () => {
+    try {
+      await clearApi.fetchData();
+      if (cart) setCart({ ...cart, items: [] });
     } catch {
-      addNewMessage({ text: "Erro ao finalizar o pedido. Tente novamente." });
-      return null;
-    } finally {
-      setCheckingOut(false);
+      addNewMessage({ text: "Erro ao esvaziar o carrinho." });
     }
-  };
+  }, [cart]);
+
+  /**
+   * Finaliza a compra: avança o status do pedido/carrinho atual
+   * (POST /cart/checkout) e recarrega o carrinho, que agora
+   * virá vazio (o back cria um novo Order AGUARDANDO_PAGAMENTO).
+   */
+  const checkout = useCallback(async () => {
+    if (!cart || cart.items.length === 0) {
+      addNewMessage({ text: "Seu carrinho está vazio." });
+      return null;
+    }
+
+    try {
+      const res = await checkoutApi.fetchData();
+      await fetchCart();
+      addNewMessage({ text: "Pedido realizado com sucesso!" });
+      return res?.data ?? null;
+    } catch (err: any) {
+      const message =
+        err?.raw?.response?.data?.error ??
+        "Erro ao finalizar o pedido. Tente novamente.";
+      addNewMessage({ text: message });
+      return null;
+    }
+  }, [cart]);
 
   return {
+    cart,
     items,
     totalItems,
     totalPrice,
-    checkingOut,
+    loading: loading || getCartApi.loading || checkoutApi.loading,
+    checkingOut: checkoutApi.loading,
+    fetchCart,
     addToCart,
-    checkout,
-    removeItem,
     updateItemQuantity,
+    removeItem,
     clear,
+    checkout,
   };
 }
